@@ -1,0 +1,23 @@
+{
+  "name": "orinotification",
+  "version": "0.0.1",
+  "description": "origamicore notification",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vahidHossaini/orinotification.git"
+  },
+  "keywords": [
+    "origamicore",
+    "notification"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vahidHossaini/orinotification/issues"
+  },
+  "homepage": "https://github.com/vahidHossaini/orinotification#readme"
+}
