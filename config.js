@@ -20,8 +20,7 @@ module.exports = class defaultConfig
     }
     getDefaultConfig()
     {
-      return 
-	  {
+      return {
 		context:"",  
 		attach:{  },
 		 

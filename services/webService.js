@@ -6,16 +6,16 @@ module.exports = class nofifyWebService
         this.context=config.context
         this.config=config 
         this.connection={}
-        if(config.protocol=='http')
-        {
-            this.connection = require('http');
-            this.connection.post = require('http-post'); 
-        }
-        if(config.protocol=='https')
-        {
-            this.connection = require('https');
-            this.connection.post = require('https-post'); 
-        }
+        // if(config.protocol=='http')
+        // {
+            // this.connection = require('http');
+            // this.connection.post = require('http-post'); 
+        // }
+        // if(config.protocol=='https')
+        // {
+            // this.connection = require('https');
+            // this.connection.post = require('https-post'); 
+        // }
     }
     async SendMessage(msg, func,self)
     {
@@ -32,6 +32,7 @@ module.exports = class nofifyWebService
 			tmp.text= tmp.text.replaceAll('{{'+x+'}}',obj[x])
 			tmp.html= tmp.html.replaceAll('{{'+x+'}}',obj[x])
 		}
+            
 		var option=JSON.parse(JSON.stringify(self.config.option))
 		option[self.config.toField]=obj.to
 		option[self.config.textField]=tmp.text
@@ -46,18 +47,25 @@ module.exports = class nofifyWebService
 			title:tmp.title,
 			to:obj.to
 		}
-		this.connection.post(this.config.sendUrl,option,async function(res){
-			res.setEncoding('utf8');
-			var dt=''
-			res.on('data', function(chunk) { 
-				dt+=chunk  
-			});
-			res.on('end', () => {
+        var myfunc=global.web.post;
+        if(self.config.protocolType=="get")
+            myfunc=global.web.get
+        var dtx=await myfunc(this.config.sendUrl,option,{});
+        console.log('===>',dtx)
+        log.resp=dtx
+        await global.db.Save(self.context,'notification_log',["_id"],log)
+        return func(null,dtx)
+		// this.connection.post(this.config.sendUrl,option,async function(res){
+			// res.setEncoding('utf8');
+			// var dt=''
+			// res.on('data', function(chunk) { 
+				// dt+=chunk  
+			// });
+			// res.on('end', () => {
 				
-					await global.db.Save(self.context,'notification_log',["_id"],log)
-				 return func(null,dt)
-			})
-		}); 
+				 // return func(null,dt)
+			// })
+		// }); 
 		 
     }
 }
